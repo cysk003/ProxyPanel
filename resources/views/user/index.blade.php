@@ -31,23 +31,23 @@
                                 <a href="{{route('shop')}}" class="btn btn-block btn-danger">{{trans('user.purchase_promotion')}}</a>
                             @elseif(Auth::user()->enable)
                                 <i class="wb-check green-400 font-size-40 mr-10"></i>
-                                <span class="font-size-40 font-weight-100">{{trans('user.status.enabled')}}</span>
+                                <span class="font-size-40 font-weight-100">{{trans('common.status.normal')}}</span>
                                 <p class="font-weight-300 m-0 green-500">{{trans('user.account.reason.normal')}}</p>
                             @elseif($remainDays < 0)
                                 <i class="wb-close red-400 font-size-40 mr-10"></i>
-                                <span class="font-size-40 font-weight-100">{{trans('user.status.expired')}}</span>
+                                <span class="font-size-40 font-weight-100">{{trans('common.status.expire')}}</span>
                                 <p class="font-weight-300 m-0 red-500">{{trans('user.account.reason.expired')}}</p>
                             @elseif($unusedTraffic === '0B')
                                 <i class="wb-close red-400 font-size-40 mr-10"></i>
-                                <span class="font-size-40 font-weight-100">{{trans('user.status.disabled')}}</span>
+                                <span class="font-size-40 font-weight-100">{{trans('common.status.disabled')}}</span>
                                 <p class="font-weight-300 m-0 red-500">{{trans('user.account.reason.traffic_exhausted')}}</p>
                             @elseif($banedTime || Auth::user()->isTrafficWarning())
                                 <i class="wb-alert orange-400 font-size-40 mr-10"></i>
-                                <span class="font-size-40 font-weight-100">{{trans('user.status.limited')}}</span>
+                                <span class="font-size-40 font-weight-100">{{trans('common.status.limited')}}</span>
                                 <p class="font-weight-300 m-0 orange-500">{!!trans('user.account.reason.overused', ['data'=>sysConfig('traffic_ban_value')])!!}</p>
                             @else
                                 <i class="wb-help red-400 font-size-40 mr-10"></i>
-                                <span class="font-size-40 font-weight-100">{{trans('user.status.disabled')}}</span>
+                                <span class="font-size-40 font-weight-100">{{trans('common.status.disabled')}}</span>
                                 <p class="font-weight-300 m-0 red-500">{{trans('user.account.reason.unknown')}}</p>
                             @endif
                         </div>
@@ -63,7 +63,7 @@
                                 <span class="font-weight-400">{{trans('user.account.remain')}}</span>
                                 <div class="text-center font-weight-100 font-size-40">
                                     @if ($unusedTraffic === '0B')
-                                        {{trans('user.status.run_out')}}
+                                        {{trans('common.status.run_out')}}
                                     @else
                                         {{$unusedTraffic}}
                                     @endif
@@ -96,7 +96,7 @@
                                 <span class="font-size-40 font-weight-100">{{$remainDays.' '.trans_choice('validation.attributes.day', 1)}}</span>
                                 <p class="blue-grey-500 font-weight-300 m-0">{{$expireTime}}</p>
                             @else
-                                <span class="font-size-40 font-weight-100">{{trans('user.status.expired')}}</span>
+                                <span class="font-size-40 font-weight-100">{{trans('common.status.expire')}}</span>
                                 <br/>
                                 <a href="{{route('shop')}}" class="btn btn-danger">{{trans('user.shop.buy')}}</a>
                             @endif
@@ -204,8 +204,16 @@
                         <div class="card card-shadow text-center h-full">
                             <div class="card-block">
                                 <h4 class="card-title"><i class="wb-bell mr-10 yellow-600"></i>{{trans('user.home.chat_group')}}</h4>
-                                <a class="card-link btn btn-lg btn-primary" href="https://t.me/+nW8AwsPPUsliYzg1" target="_blank" rel="noopener">
-                                    Telegram {{trans('user.home.chat_group')}} <i class="fa-brands fa-telegram"></i></a>
+                                @if($paying_user)
+                                    <div class="btn-group">
+                                        <a class="card-link btn btn-sm btn-pill-left btn-info" href="https://jq.qq.com/?_wv=1027&k=52AI188" target="_blank" rel="noopener">
+                                            <i class="fa-brands fa-qq"></i> QQ{{trans('user.home.chat_group')}}</a>
+                                        <a class="card-link btn btn-sm btn-pill-right btn-success" href="https://t.me/otakucloud" target="_blank" rel="noopener">
+                                            TG{{trans('user.home.chat_group')}} <i class="fa-brands fa-telegram"></i></a>
+                                    </div>
+                                @else
+                                    <p class="card-link btn btn-sm btn-primary"><i class="wb-lock mr-5"></i>{{trans('user.purchase_to_unlock')}}</p>
+                                @endif
                             </div>
                         </div>
                     </div>
