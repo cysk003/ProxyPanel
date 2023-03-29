@@ -504,7 +504,9 @@ class AuthController extends Controller
 
     public function switchLang(string $locale): RedirectResponse
     { // 切换语言
-        Session::put('locale', $locale);
+        app()->setLocale($locale);
+        // Session
+        session()->put('locale', $locale);
 
         return Redirect::back();
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Agent;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -23,9 +24,13 @@ class SetLocale
         } elseif ($request->query('locale')) {
             Session::put('locale', $request->query('locale'));
             app()->setLocale($request->query('locale'));
-        } elseif ($request->header('content-language')) {
-            Session::put('locale', $request->header('content-language'));
-            App::setLocale($request->header('content-language'));
+        } elseif (Agent::languages()) {
+            $result = array_intersect(str_replace('-', '_', Agent::languages()), array_map('strtolower', array_keys(config('common.language'))));
+
+            if ($result) {
+                Session::put('locale', array_values($result)[0]);
+                App::setLocale(array_values($result)[0]);
+            }
         }
 
         return $next($request);
